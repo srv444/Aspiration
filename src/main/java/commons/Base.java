@@ -1251,5 +1251,99 @@ public abstract class Base extends TestListenerAdapter {
 			 	WebElement element = shadow.findElement(cssSelector);
 			 	return element;
 		 }
+		 
+		 /**
+			 * @throws Exception
+			 * @Description Create list with expected information for Aspiration card
+			 * @Author Sergio Ramones
+			 * @Date 14-SEP-2021
+			 * @Parameter N/A
+			 * @return List<String>
+			 *
+			 **/
+		 public List<String> detailsAspirationCard(){
+			 List<String> details = new ArrayList<>();
+			 details.add("Deposits won't fund fossil fuel exploration or production");
+			 details.add("55,000 free in-network ATMs");
+			 details.add("3-5% cash back on Conscience Coalition purchases");
+			 details.add("Personal impact score to help you shop to match your values");
+			 details.add("Option to plant a tree with every roundup");
+			 details.add("Get paid up to 2 days early");
+			 
+			 return details;
+		 }
+		 
+			/**
+			 * @throws Exception
+			 * @Description Create list with expected information for Aspiration card
+			 * @Author Sergio Ramones
+			 * @Date 14-SEP-2021
+			 * @Parameter N/A
+			 * @return List<String>
+			 *
+			 **/
+		 public List<String> detailsAspirationPlusCard(){
+			 List<String> details = new ArrayList<>();
+			 details.add("Deposits won't fund fossil fuel exploration or production");
+			 details.add("55,000 free in-network ATMs");
+			 details.add("10% cash back on Conscience Coalition purchases");
+			 details.add("Personal impact score to help you shop to match your values");
+			 details.add("Option to plant a tree with every roundup");
+			 details.add("Up to 1.00% APY on your savings");
+			 details.add("One out-of-network ATM reimbursement monthly");
+			 details.add("Carbon offsets for all your gas purchases with Planet Protection");
+			 details.add("Get paid up to 2 days early");
+			 
+			 return details;
+		 }
+		 
+			/**
+			 * @Description Compare two list contains same information
+			 * @Author Sergio Ramones
+			 * @Date 04-JUN-2021 
+			 * @Parameter WebElement, List <String.>
+			 * @return N/A
+			 * @throws N/A
+			 */
+			public void validateListOfValues(List<WebElement> actualElements, List<String> expectedElements) {
+				try {
+			
+		
+					List<String> actualValuesString = new ArrayList<>();
+
+						for(WebElement value : actualElements) {
+							actualValuesString.add(value.getText());
+						
+						}
+							
+					        Collections.sort(expectedElements);
+					        Collections.sort(actualValuesString);
+					         
+					      boolean isEqual = actualValuesString.equals(expectedElements);    
+					      
+					      if(isEqual==true) {
+					    	  Reporter.log("Actual Elements  : <b>[ " + actualValuesString+" ]</b>", true);
+					    	  Reporter.log("Expected Elements: <b>[" + expectedElements+" ]</b>", true);
+					        Assert.assertTrue(true, "Values are in the List");
+					        
+					      }else {
+					  
+					    	  Reporter.log("Actual Elements  : <b>[ "+ actualValuesString+" ]</b>", true);
+					    	  Reporter.log("Expected Elements: <b>[" + expectedElements+" ]</b>", true);
+					    	  Assert.fail("Values are not in the List");
+					    	 
+					      }
+
+						
+					} catch (StaleElementReferenceException e) {
+						Reporter.log("Cannot select List", true);
+					}
+					 catch (NoSuchElementException e) {
+							Reporter.log("Cannot select element in List: ", true);
+						}
+					
+			
+
+			}// end method
 	
 }//end class
