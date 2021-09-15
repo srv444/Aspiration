@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "1a16c99f-fe81-48fc-9f7a-8dbd86c4d755",
+		"name": "StarWarsAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "people",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Validate status code is 200', function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							" \r",
+							"\r",
+							"pm.test(\"Verify that the total number of people where height is greater than 200 \", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"       console.log(\"Verify that the total number of people where height is greater than 200 \")\r",
+							"        for (const props of jsonData.results) {\r",
+							"                if(props.height>200){\r",
+							"                console.log(props.height, props.name)\r",
+							"                 }\r",
+							"        }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify that the 10 individuals returned are:\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"        console.log(\"Verify that the 10 individuals returned are:\")\r",
+							"        for (const props of jsonData.results) {\r",
+							"                 \r",
+							"                console.log(props.name, props.height)\r",
+							"                 \r",
+							"        }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify that the total number of people checked equals the expected count 82\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.count).to.eql(82);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
