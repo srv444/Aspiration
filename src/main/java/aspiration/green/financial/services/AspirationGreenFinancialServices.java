@@ -24,6 +24,7 @@ public class AspirationGreenFinancialServices extends Base{
 	 * @throws Exception 
 	 **/
 	public void selectMenu(String menu) throws Exception {
+		takeScreenShot();
 		reviewElement(list_principalMenu.get(0));
 		selectElementByValue(list_principalMenu,menu);
 		takeScreenShot();

@@ -78,7 +78,7 @@ public class Init {
 	 * @Parameter Class
 	 * @return initialized class
 	 */
-	public <TPage extends BaseMobile> TPage getMobilePage(Class<TPage> pageClass) throws Exception {
+	public <TPage extends BaseMobile> TPage getMobilePage(Class<TPage> pageClass){
 		try {
 			
 			Reporter.log("Page Object initializated ---> <b>" + pageClass.getName() +"</b>", true);

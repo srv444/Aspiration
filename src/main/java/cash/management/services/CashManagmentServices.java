@@ -16,7 +16,7 @@ public class CashManagmentServices extends Base {
 	@FindBy(className="card-original")
 	WebElement icon_aspiration;
 	
-	@FindBy(className="plan plan-a-plus")
+	@FindBy(xpath="//div[@class='plan plan-a-plus']")
 	WebElement icon_aspirationPlus;
 	
 	@FindBy(xpath="//div[@class='plan plan-original']//li")
@@ -34,8 +34,17 @@ public class CashManagmentServices extends Base {
 	@FindBy(name="email")
 	WebElement txt_email;
 	
-	@FindBy(className="email")
+	@FindBy(className="close")
 	WebElement btn_close;
+	
+	@FindBy(xpath="//div[@uib-modal-window='modal-window']")
+	WebElement btn_closeModalPlus;
+	
+	@FindBy(xpath="//div[contains(@ng-click,'yearly')]//b[@class='ng-binding']")
+	WebElement text_yearly;
+	
+	@FindBy(xpath="//div[contains(@ng-click,'monthly')]//b[@class='ng-binding']")
+	WebElement text_monthly;
 	
 	/**
 	 * @Description Verify both Plan exist Aspiration/ Aspiration Plus
@@ -54,7 +63,7 @@ public class CashManagmentServices extends Base {
 		} else {
 			Assert.fail("Aspiration card don't exist in the page");
 		}
-
+		reviewElement(text_header);
 		if (verifyElementExist(icon_aspirationPlus) == true) {
 			reporter("Aspiration Plus card exist");
 			takeScreenShot();
@@ -63,7 +72,7 @@ public class CashManagmentServices extends Base {
 		}
 		
 		validateListOfValues(list_aspirationDetials, detailsAspirationCard());
-		validateListOfValues(list_aspirationPlusDetials, detailsAspirationCard());
+		validateListOfValues(list_aspirationPlusDetials, detailsAspirationPlusCard());
 	}//end method
 	
 	/**
@@ -74,9 +83,9 @@ public class CashManagmentServices extends Base {
 	 * @return N/A
 	 * @throws Exception
 	 **/
-	public void verifyModals() throws Exception {
+	public void verifyModals(double yearlyPay, double monthlyPay) throws Exception {
 		reviewElement(btn_getAspiration);
-		click(btn_getAspiration);
+		clickJScript(btn_getAspiration);
 		if (verifyElementExist(txt_email) == true) {
 			reporter("Email for Aspiration card exist");
 			takeScreenShot();
@@ -84,13 +93,28 @@ public class CashManagmentServices extends Base {
 			Assert.fail("Email for Aspiration don't exist in the page");
 		}
 		click(btn_close);
-		if (verifyElementExist(txt_email) == true) {
-			reporter("Email for Aspiration Plus card exist");
+		reviewElement(btn_getAspirationPlus);
+		clickJScript(btn_getAspirationPlus);
+		
+		if (verifyElementExist(text_yearly) == true) {
+			reporter("Prices for Aspiration Plus card exist");
+			sleep(2000);
+			double actualYearlyPay = Double.parseDouble(getText(text_yearly).replaceAll("[^\\d.]", ""));
+			double actualmonthlyPay = Double.parseDouble(getText(text_monthly).replaceAll("[^\\d.]", ""));
 			takeScreenShot();
+			if(actualYearlyPay==yearlyPay && actualmonthlyPay==monthlyPay) {
+				reporter("Prices are matching with expected: yearly [ "+actualYearlyPay+" ] monthly [ "+actualmonthlyPay+" ]");
+				reporter("Expeted Prices are not matching: yearly [ "+yearlyPay+" ] monthly [ "+monthlyPay+" ]");
+			}else {
+				Assert.fail("Actual prices are not matching: yearly [ "+actualYearlyPay+" ] monthly [ "+actualmonthlyPay+" ] "
+						+ "\n Expeted Prices are not matching: yearly [ "+yearlyPay+" ] monthly [ "+monthlyPay+" ]");
+			}
+			
+			
 		} else {
-			Assert.fail("Email for Aspiration Plus don't exist in the page");
+			Assert.fail("Prices for Aspiration Plus card don't exist in the page");
 		}
-		click(btn_close);
+		keywordEsc(btn_closeModalPlus);
 	}//verifyModals
 	
 	

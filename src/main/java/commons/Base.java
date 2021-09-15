@@ -511,6 +511,24 @@ public abstract class Base extends TestListenerAdapter {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @throws Exception
+	 * @Description set text in the webElement
+	 * @Author Sergio Ramones
+	 * @Date 04-JUN-2021 
+	 * @Parameter WebElement, String
+	 * @return N/A
+	 */
+	public void keywordEsc(WebElement element) throws Exception {
+		try {
+			element.sendKeys(Keys.ESCAPE);
+			Reporter.log("Enter was sent: " ,true);
+		} catch (Exception e) {
+			Assert.fail("It's not possible to send Enter");
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @throws Exception
@@ -522,7 +540,7 @@ public abstract class Base extends TestListenerAdapter {
 	 */
 	public void click(WebElement element) throws Exception  {
 		try {
-			reviewElement(element);
+			
 			scrollJScript(element);
 			highlighElement(element);
 			element.click();
@@ -553,13 +571,14 @@ public abstract class Base extends TestListenerAdapter {
 	public void selectElementByValue(List<WebElement> element, String text) throws Exception {
 		try {
 			reviewElement(element.get(0));
+			
 			for (int i = 0; i <= element.size(); i++) {
-
+				
 				if (i >= element.size()) {
 					Assert.fail("The Text is not in the list: " + text);
 					break;
 				}
- 
+				System.out.println(element.get(i).getText());
 				if (element.get(i).getText().contains(text)) {
 					scrollJScript(element.get(i));
 					highlighElement(element.get(i));
@@ -751,7 +770,7 @@ public abstract class Base extends TestListenerAdapter {
 			File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			//the below method will save the screen shot in the path that we are passing 
 			try {	
-					String fullpath =  filePath + driver.getTitle()+"_"+formater.format(calendar.getTime())+".png";
+					String fullpath =  filePath + "Screen"+"_"+formater.format(calendar.getTime())+".png";
 					
 					FileUtils.copyFile(srcFile, new File(fullpath));
 					fullpath = "."+fullpath;
@@ -876,7 +895,7 @@ public abstract class Base extends TestListenerAdapter {
 			String text = null;
 			try {
 				
-				scrollJScript(element);
+				
 				text = element.getText();
 				Reporter.log("Text got form application is: <b>[" + text+"] </b>", true);
 			} catch (Exception e) {
